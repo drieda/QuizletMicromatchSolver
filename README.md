@@ -9,6 +9,6 @@ Note: the script only works in micromatch not match. (For example: https://quizl
 
 Also note that Quizlet can't store a time less than 0.5s
 
-# This script is was created for learning JS only. I do NOT encourage anyone to use it to ruin other people's experience!
+# This script was created for learning JS only. I do NOT encourage anyone to use it to ruin other people's experience!
 
 Note: the Old version of the script can't achieve a time less than 2.5s
