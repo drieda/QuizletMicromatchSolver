@@ -1,3 +1,11 @@
+/*
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+The scrip was created for learning purpose only. Please do NOT use it in to ruin other's experience!
+I also do NOT encourage you to use it while you're signed in, so that Quizlet won't save your score.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+*/
 document.querySelector('.UIButton--hero').addEventListener('click', function(){
     
     setTimeout(bot,8);
