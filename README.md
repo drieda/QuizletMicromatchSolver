@@ -9,4 +9,4 @@ Best time: 2.5s
 
 Note: the script only works in micromatch not match. (For example: https://quizlet.com/507902727/micromatch)
 
-# This script is was created for learniing JS only. I do NOT encourage anyone to use it to ruin other people's experience!
+# This script is was created for learning JS only. I do NOT encourage anyone to use it to ruin other people's experience!
