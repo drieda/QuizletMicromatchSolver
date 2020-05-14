@@ -1,0 +1,100 @@
+
+
+
+
+//Get all cards from Quizlet
+var de = [], hu = [], terms = Quizlet.matchModeData.terms, event = new PointerEvent('pointerdown');
+
+//Separate front and back side of cards
+for(var i=0; i<terms.length; i++){
+    de[i] = terms[i].word;
+    hu[i] = terms[i].definition;
+}
+
+//Set up event listener and event trigger
+document.querySelector('.UIButton--hero').addEventListener('click', function(){
+    
+    //Set timeout to control the time the bot achieves
+    setTimeout(function(){
+
+        //Store objects the bot can click, the text on the cards, an array to know which cards have been clicked, the index of the current card
+        var currentCards = getItems().currentList, currentElements = getItems().elements, clicked = [], x=0;
+
+        //The actual bot that keeps running
+        var bot = function(){
+            //Finds and stores the pair of the currently selected card
+            var pair = findPair(currentElements, clicked, x);
+
+            //If the current card has already been clicked the bot skips it
+            if(pair===true) {
+                x++;
+                bot();
+            }
+
+            //Store the index of the current card's pair 
+            var index = currentCards.indexOf(pair);
+
+            //Triggers the event listener of the element which has the answer (set by Quizlet)
+            currentElements[index].dispatchEvent(event);
+
+            //Adds the clicked element's index to the array
+            clicked.push(index);
+
+            //Jumps to the next card
+            x++;
+            setTimeout(bot,10);
+
+        }
+
+        //Starts the bot
+        bot();
+        
+    },delay);
+    
+    
+});
+
+//Gets the desired time to achieve from the user
+var delay = prompt('What time in milliseconds do you want to achieve? (1s = 1000ms)', 5400);
+
+//Stats the game and triggers the event listener set up above
+document.querySelector('.UIButton--hero').click();
+
+//Returns elements from the document which the bot can click and extracts the text contained in them.
+var getItems = function(){
+    var elements, currentList=[];
+
+    //Get elements from the document
+    elements = document.querySelectorAll('.MatchModeQuestionGridTile');
+
+    //Extract text written on the cards
+    for(var i = 0; i<elements.length; i++){
+        currentList[i]=elements[i].innerText;
+    }
+
+    //Return both the elements and the texts on the cards
+    return {
+        currentList,
+        elements
+    };
+}
+
+//Returns the pair of the selected card | current: thes
+var findPair = function(current, array, index){
+
+    //if the card that comes next has already been clicked the functions returns
+    if(array.indexOf(index) != -1) return true;
+
+    //Trigger event listener of the card and get the text written on it
+    current[index].dispatchEvent(event);
+    var c = current[index].innerText;
+    
+    //Finds the text written on the pair of the card and returns it
+    for(var i = 0; i<terms.length; i++)
+    {
+        if( c === de[i])return hu[i];
+        else if( c === hu[i]) return de[i];
+    }
+}
+
+
