@@ -5,97 +5,93 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 */
 
-//Get all cards from Quizlet
+//Gets all cards from Quizlet | de = array for one side of the cards, hu = array for the other, terms = all cards in the current Quizlet, event = pointer down event
 var de = [], hu = [], terms = Quizlet.matchModeData.terms, event = new PointerEvent('pointerdown');
 
-//Separate front and back side of cards
+//Separates front and back side of each card (card object stores one side as definition and the other as word)
 for(var i=0; i<terms.length; i++){
     de[i] = terms[i].word;
     hu[i] = terms[i].definition;
 }
 
-//Set up event listener and event trigger
+//Sets up event listener and callback function
 document.querySelector('.UIButton--hero').addEventListener('click', function(){
     
-    //Set timeout to control the time the bot achieves
+    //Sets the timeout to control when the bot finishes
     setTimeout(function(){
 
-        //Store objects the bot can click, the text on the cards, an array to know which cards have been clicked, the index of the current card
+        //currentCards = objects the bot can click, currentElements = the text on the cards, clicked = an array to know which cards have been clicked, x = the index of the current card
         var currentCards = getItems().currentList, currentElements = getItems().elements, clicked = [], x=0;
 
         //The actual bot that keeps running
         var bot = function(){
-            //Finds and stores the pair of the currently selected card
-            var pair = findPair(currentElements, clicked, x);
 
-            //If the current card has already been clicked the bot skips it
-            if(pair===true) {
-                x++;
-                bot();
+            //Checks if the upcoming card has already been clicked or not, if not then the code inside is executed
+            if(clicked.indexOf(x) === -1){
+
+                //Clicks on the upcoming card
+                currentElements[x].dispatchEvent(event);
+
+                //Finds the pair of the card clicked before
+                var pair = findPair(currentElements[x].innerText);
+
+                //Store the index of the pair to be able to target the clickable element that has it
+                var index = currentCards.indexOf(pair);
+
+                //Triggers the event listener of the element which has the pair
+                currentElements[index].dispatchEvent(event);
+
+                //Adds the index of the element clicked before to the array
+                clicked.push(index);
             }
-
-            //Store the index of the current card's pair 
-            var index = currentCards.indexOf(pair);
-
-            //Triggers the event listener of the element which has the answer (set by Quizlet)
-            currentElements[index].dispatchEvent(event);
-
-            //Adds the clicked element's index to the array
-            clicked.push(index);
 
             //Jumps to the next card
             x++;
-            bot();
-
+            bot()
         }
 
-        //Starts the bot
-        bot();
-        
+        //Runs the bot
+        bot();  
     },delay);
-    
-    
 });
 
-//Gets the desired time to achieve from the user
+//Gets the time the user wants to achive
 var delay = parseInt(prompt('What time (in milliseconds) do you want to achieve? (1s = 1000ms)', 5400));
-delay += 100;
-//Stats the game and triggers the event listener set up above
+
+//Adds a bit of delay to achieve the desired result
+delay+=40;
+
+//Triggers the event listener which was set up above
 document.querySelector('.UIButton--hero').click();
 
-//Returns elements from the document which the bot can click and extracts the text contained in them.
+//Returns an object which has two arrays. One for the storing the elements the bot will click and the other is for storing the text inside the elements.
 var getItems = function(){
+
+    //elements = the elements from the document, currentList = an array for the text
     var elements, currentList=[];
 
-    //Get elements from the document
+    //Gets the elements from the document
     elements = document.querySelectorAll('.MatchModeQuestionGridTile');
 
-    //Extract text written on the cards
+    //Extracts the text written from the elements
     for(var i = 0; i<elements.length; i++){
         currentList[i]=elements[i].innerText;
     }
 
-    //Return both the elements and the texts on the cards
+    //Returns an object storing both the elements and the texts
     return {
         currentList,
         elements
     };
 }
 
-//Returns the pair of the selected card | current: thes
-var findPair = function(current, array, index){
-
-    //if the card that comes next has already been clicked the functions returns
-    if(array.indexOf(index) != -1) return true;
-
-    //Trigger event listener of the card and get the text written on it
-    current[index].dispatchEvent(event);
-    var c = current[index].innerText;
+//Returns the pair of the selected card | list
+var findPair = function(current){
 
     //Finds the text written on the pair of the card and returns it
     for(var i = 0; i<terms.length; i++)
     {
-        if( c === de[i])return hu[i];
-        else if( c === hu[i]) return de[i];
+        if( current === de[i])return hu[i];
+        else if( current === hu[i]) return de[i];
     }
 }
