@@ -45,7 +45,7 @@ document.querySelector('.UIButton--hero').addEventListener('click', function(){
 
             //Jumps to the next card
             x++;
-            setTimeout(bot,10);
+            bot();
 
         }
 
@@ -58,8 +58,8 @@ document.querySelector('.UIButton--hero').addEventListener('click', function(){
 });
 
 //Gets the desired time to achieve from the user
-var delay = prompt('What time in milliseconds do you want to achieve? (1s = 1000ms)', 5400);
-
+var delay = parseInt(prompt('What time (in milliseconds) do you want to achieve? (1s = 1000ms)', 5400));
+delay += 100;
 //Stats the game and triggers the event listener set up above
 document.querySelector('.UIButton--hero').click();
 
@@ -91,7 +91,7 @@ var findPair = function(current, array, index){
     //Trigger event listener of the card and get the text written on it
     current[index].dispatchEvent(event);
     var c = current[index].innerText;
-    
+
     //Finds the text written on the pair of the card and returns it
     for(var i = 0; i<terms.length; i++)
     {
@@ -99,5 +99,3 @@ var findPair = function(current, array, index){
         else if( c === hu[i]) return de[i];
     }
 }
-
-
