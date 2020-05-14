@@ -7,7 +7,7 @@
 
 Note: the script only works in micromatch not match. (For example: https://quizlet.com/507902727/micromatch)
 
-Also note that Quizlet can't story a time less than 0.5s
+Also note that Quizlet can't store a time less than 0.5s
 
 # This script is was created for learning JS only. I do NOT encourage anyone to use it to ruin other people's experience!
 
