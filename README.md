@@ -3,7 +3,7 @@
 Best time: 2.5s
 
 # How to use
-1.) Open a quizlet micromatch game
+1.) Open a quizlet micromatch game <br>
 2.) Open console, paste and run the script
 3.) Click on 'Start game' button
 
