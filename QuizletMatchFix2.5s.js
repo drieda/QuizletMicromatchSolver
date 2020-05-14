@@ -29,7 +29,6 @@ function bot (){
                     return word;
                 } else if (terms[k].word === current){
                     def = terms[k].definition;
-                    console.log('def: '+ def);
                     return def;
                 }
             }
