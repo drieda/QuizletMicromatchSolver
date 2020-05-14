@@ -6,17 +6,10 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 */
-document.querySelector('.UIButton--hero').addEventListener('click', function(){
-    
+document.querySelector('.UIButton--hero').addEventListener('click', function(){ 
     setTimeout(bot,8);
-    
-    
 });
-
-//fix 2.5s;
-
-var k,j;
-var currentCards = [],current,word,def;
+var currentCards = [], current, word, def, k, j;
 var terms = Quizlet.matchModeData.terms;
 var length = terms.length;
 var event = new PointerEvent('pointerdown');
@@ -25,11 +18,9 @@ function bot (){
     currentCards = document.querySelectorAll('.MatchModeQuestionGridTile');
     currentCards[0].dispatchEvent(event);
     current=currentCards[0].textContent;
-    console.log('szó: ' + current);
     j(k());
     if(currentCards.length>1){
-       setTimeout(bot,500);
-       
+       setTimeout(bot,500);    
     }
     function k (){
             for(k = 0; k<length; k++){
