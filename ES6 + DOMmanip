@@ -11,7 +11,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         let html='<h3 class="UIHeading--three" style="text-align: center; margin: 40px 0 30px 0; width: 90%; position: relative; left: 50%; transform: translateX(-50%);">What time do you wish to achieve?</h3><input type="text" id="time" name="time" value="--" style="color: #455358; -webkit-appearance: none;-moz-appearance: none; appearance: none; border: solid #3ccfcf;border-radius: .25rem;display: inline-block;font: inherit;max-width: 100%;padding: .75rem 1.5rem; font-weight: 600; font-size: .875rem; line-height: 1.285714285714286; transition: all .12s cubic-bezier(.47,0,.745,.715); width: 80px; height:50px; position:relative; left:50%;transform:translateX(-50%); text-align:center; padding:0px;"></input>';
         document.querySelector('.UIModalBody').insertAdjacentHTML('beforeend', html);
         document.getElementById('time').addEventListener('click',function(e){
-            e.target.value="";
+            e.target.value='';
         })
     }
     
@@ -74,8 +74,9 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
     }
 
     let callBack = function(){
-        if(document.getElementById('time').value != '--'){
-            let delay = parseInt(document.getElementById('time').value * 1000);
+        let time = document.getElementById('time');
+        if(time.value !== '--' || time.value !== ''){
+            let delay = parseInt(time.value * 1000);
             delay+=40;
 
             setTimeout(function(){
