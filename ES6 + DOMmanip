@@ -74,9 +74,9 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
     }
 
     let callBack = function(){
-        let time = document.getElementById('time');
-        if(time.value !== '--' || time.value !== ''){
-            let delay = parseInt(time.value * 1000);
+        let time = document.getElementById('time').value;
+        if(time !== '--' && time !== ''){
+            let delay = parseInt(time * 1000);
             delay+=40;
 
             setTimeout(function(){
