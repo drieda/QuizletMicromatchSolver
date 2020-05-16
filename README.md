@@ -5,6 +5,8 @@
 2.) Open the console, paste and run the script <br>
 3.) Set the time you want to achieve and start the game<br>
 
+Only tested in Chrome v81.0.4044.138
+
 Note: the script only works in micromatch mode which is NOT equal with match. (For example: https://quizlet.com/507902727/micromatch)
 
 Also note that Quizlet can't save a time less than 0.5s
