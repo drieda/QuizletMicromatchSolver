@@ -27,8 +27,8 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             //Deletes the the inside the input box
             e.target.value='';
 
-        })
-    }
+        });
+    };
     
     //Gets all the flashcards from Quizlet
     let getTerms = function (){
@@ -46,8 +46,8 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         return{
             def: def,
             word: word
-        }
-    }
+        };
+    };
 
     //Gets all tiles from the micromatch game
     let getObjects = function (){
@@ -64,8 +64,8 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         return {
             text,
             elem
-        }
-    }
+        };
+    };
 
     //Finds the pair for the currently targeted card | current: the text on the currently selected card | terms: all the flashcard from Quizlet
     let findPair = function (current, terms){
@@ -76,7 +76,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             if(current === terms.def[i]) return terms.word[i];
             else if(current === terms.word[i]) return terms.def[i];
         }
-    }
+    };
 
     //The bot that does the work | botTerms: all the flashcard from Quizlet | botObjects: an object containing the words and the tiles
     let bot = function (botTerms, botObjects){
@@ -107,7 +107,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             x++;
         }
 
-    }
+    };
 
     //A function which prepares the bot and triggers it | time: the value stored in the input box
     let callBack = function(time){
@@ -121,9 +121,9 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             //Triggers the bot
             bot(getTerms(),getObjects());
     
-        },delay)
+        },delay);
         
-    }
+    };
 
     //A function which runs as soon as the script is invoked
     let init = function (){
@@ -140,7 +140,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             //The value currently inside the input box
             time = document.getElementById('time').value;
             
-        })
+        });
 
         //If 'enter' is spressed while the input box is selected this function starts the game (written to improve UX)
         document.getElementById('time').addEventListener('keydown', function(e){
@@ -151,7 +151,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
                 //Presses the 'start game' button
                 document.querySelector('.UIButton--hero').click();
             }
-        })
+        });
 
         //A target for the observer to watch
         const target = document.querySelector('body');
@@ -162,7 +162,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         };
 
         //Defines the observer and a callback function and triggers it
-        let observer = new MutationObserver(function() {
+        new MutationObserver(function() {
 
             //If a time has been typed in then the defaultTime value is replaced to it
             if(time >= 0){
@@ -176,7 +176,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
         }).observe(target, config);
         
-    }
+    };
 
     //Triggers the init function
     init();
