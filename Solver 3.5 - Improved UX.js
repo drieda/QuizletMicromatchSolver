@@ -7,7 +7,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
 {
     //Html manipulator
-    let htmlManip = function(){
+    let htmlManip = () => {
 
         //Sets the default time to finish in for the bot 
         let defaultTime = 5.4;
@@ -21,54 +21,47 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         //Injects the html to the document
         document.querySelector('.UIModalBody').insertAdjacentHTML('beforeend', html);
 
-        //Adds event listener to the input box for better UX
-        document.getElementById('time').addEventListener('click',function(e){
-
-            //Deletes the the inside the input box
-            e.target.value='';
-
-        });
-    };
+        //Adds event listener to the input box for better UX | on click deletes the value written inside
+        document.getElementById('time').addEventListener('click', e => e.target.value='');
+    }
     
     //Gets all the flashcards from Quizlet
-    let getTerms = function (){
+    let getTerms = () => {
 
         //def: one side of the card | word: other side of the card | terms: every the flashcard with all information
         let def = [], word = [], terms = Quizlet.matchModeData.terms;
 
         //Extracts the one and the other side of each card
-        for(let i=0; i<terms.length; i++){
-            def[i] = terms[i].word;
-            word[i] = terms[i].definition;
-        }
+        terms.forEach((el,index) => {
+            def[index] = el.definition;
+            word[index] = el.word;
+        });
 
         //Returns both sides separately in 2 arrays
         return{
             def: def,
             word: word
-        };
-    };
+        }
+    }
 
     //Gets all tiles from the micromatch game
-    let getObjects = function (){
+    let getObjects =  () => {
 
         //text: all the text that's found on the tile | elem: nodelist containing tile elements
-        let text=[], elem=document.querySelectorAll('.MatchModeQuestionGridTile');
+        let text, elem=document.querySelectorAll('.MatchModeQuestionGridTile');
 
         //Extracts the text from the tiles
-        for(let i = 0; i<12; i++){
-            text[i]=elem[i].innerText;
-        }
+        text = Array.prototype.map.call(elem, x => x.innerText);
 
         //returns an object with an array and a nodelist containing the words and the tiles
         return {
             text,
             elem
-        };
-    };
+        }
+    }
 
     //Finds the pair for the currently targeted card | current: the text on the currently selected card | terms: all the flashcard from Quizlet
-    let findPair = function (current, terms){
+    let findPair = (current, terms) => {
 
         //Decides which side of the card is currently selected and returns the other side of it
         for(let i = 0; i<(terms.def).length; i++)
@@ -76,13 +69,14 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             if(current === terms.def[i]) return terms.word[i];
             else if(current === terms.word[i]) return terms.def[i];
         }
-    };
+    }
 
     //The bot that does the work | botTerms: all the flashcard from Quizlet | botObjects: an object containing the words and the tiles
-    let bot = function (botTerms, botObjects){
+    let bot = (botTerms, botObjects) => {
 
         //event: a pointerdown event | clicked: an array which stores the index of the tiles that have been clicked | x: index of the current card
-        let event = new PointerEvent("pointerdown"), clicked = [], x=0;
+        let event = new PointerEvent("pointerdown");
+        let clicked = [], x=0;
 
         //A function that runs until all tiles have been clicked
         while(x < (botObjects.text).length){
@@ -92,41 +86,37 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
                 //Clicks the tile
                 botObjects.elem[x].dispatchEvent(event);
-
+    
                 //index: the index of the pair of the tile clicked above
                 let index = botObjects.text.indexOf(findPair(botObjects.text[x],botTerms));
-
+              
                 //Clicks the tile that has the pair of the current card
                 botObjects.elem[index].dispatchEvent(event);
-
+                
                 //Stores the index of the tile that has been clicked
                 clicked.push(index);
+               
             }
 
             //Jumps to the next card
             x++;
         }
 
-    };
+    }
 
     //A function which prepares the bot and triggers it | time: the value stored in the input box
-    let callBack = function(time){
+    let callBack = time => {
 
         //delay: the time after which the bot triggers, the value of the input box converted to milliseconds also I added 40ms for a better accuracy
         let delay = parseInt(time * 1000 + 40);
 
-        //A timeout for the bot
-        setTimeout(function(){
-
-            //Triggers the bot
-            bot(getTerms(),getObjects());
-    
-        },delay);
+        //A timeout for the bot to trigger after
+        setTimeout(() => bot(getTerms(),getObjects()), delay)
         
-    };
+    }
 
     //A function which runs as soon as the script is invoked
-    let init = function (){
+    let init = () => {
         
         //Sets up the html
         htmlManip();
@@ -135,15 +125,10 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         let defaultTime = document.getElementById('time').value;
 
         //Reads the time value which has been typed in the input box
-        let time = document.getElementById('time').addEventListener('keyup',function(){
-
-            //The value currently inside the input box
-            time = document.getElementById('time').value;
-            
-        });
+        let time = document.getElementById('time').addEventListener('keyup', () => time = document.getElementById('time').value)
 
         //If 'enter' is spressed while the input box is selected this function starts the game (written to improve UX)
-        document.getElementById('time').addEventListener('keydown', function(e){
+        document.getElementById('time').addEventListener('keydown', e => {
                 
             //keycode for 'enter'
             if(e.keyCode===13) {
@@ -151,7 +136,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
                 //Presses the 'start game' button
                 document.querySelector('.UIButton--hero').click();
             }
-        });
+        })
 
         //A target for the observer to watch
         const target = document.querySelector('body');
@@ -162,7 +147,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
         };
 
         //Defines the observer and a callback function and triggers it
-        new MutationObserver(function() {
+        let observer = new MutationObserver(() => {
 
             //If a time has been typed in then the defaultTime value is replaced to it
             if(time >= 0){
@@ -176,7 +161,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
         }).observe(target, config);
         
-    };
+    }
 
     //Triggers the init function
     init();
