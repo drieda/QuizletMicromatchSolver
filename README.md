@@ -7,7 +7,7 @@
 
 Only tested in Chrome v81.0.4044.138
 
-*Apparently Firefox is the only browser where the code doesn't work.*
+*Apparently Firefox is the only browser in which the code doesn't work.*
 
 Note: the script only works in micromatch mode which is NOT equal with match. (For example: https://quizlet.com/507902727/micromatch)
 
