@@ -1,6 +1,6 @@
 # A simple JavaScript that matches Quizlet cards.
 
-The script doesn't bypass any security barriers or anything, it only simulates mouse clicks on client side.
+The script doesn't bypass any security barriers or anything similar, it only simulates mouse clicks on client side.
 
 # How to use
 1.) Open a Quizlet micromatch game <br>
@@ -15,7 +15,7 @@ Note: the script only works in micromatch mode which is NOT equal with match. (F
 
 Also note that Quizlet can't save a time less than 0.5s
 
-# This script was created for learning JavaScript only. I did NOT run the script in any game. I do NOT encourage anyone to use the script for ruining other's experience.
+# This script was created for learning JavaScript only as a part of a coding challenge. I did NOT run the script in any game. Neither Quizlet nor I support you to run the script on any card set. 
 
 If you want to TEST the script please use ONLY the link I gave you above.
 
