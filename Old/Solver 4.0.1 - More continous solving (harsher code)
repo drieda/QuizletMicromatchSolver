@@ -73,41 +73,47 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
     //The bot that does the work | botTerms: all the flashcard from Quizlet | botObjects: an object containing the words and the tiles
     let bot = (botTerms, botObjects, delay, x=0,clicked = []) => {
-        console.log('bot start');
+       
         //event: a pointerdown event | clicked: an array which stores the index of the tiles that have been clicked | x: index of the current card
         let event = new PointerEvent("pointerdown");
 
         if(clicked.indexOf(x) === -1){
 
+            
             //Clicks the tile
             botObjects.elem[x].dispatchEvent(event);
-            console.log('click');
+
             //index: the index of the pair of the tile clicked above
             let index = botObjects.text.indexOf(findPair(botObjects.text[x],botTerms));
-          
-            setTimeout(()=>{
-                botObjects.elem[index].dispatchEvent(event);
-                console.log('click');
-
-                //Clicks the tile that has the pair of the current card
             
-                //Stores the index of the tile that has been clicked
+            if(delay > 0 &&  clicked.length<6){
+
+                setTimeout(()=>{
+                    botObjects.elem[index].dispatchEvent(event);
+
+                    clicked.push(index);
+    
+                    x++;
+                    setTimeout(function(){
+                        bot(botTerms, botObjects, delay, x, clicked);
+                    }, delay/12);
+    
+    
+    
+                }, delay/12)
+
+            } else {
+
+                botObjects.elem[index].dispatchEvent(event);
+
                 clicked.push(index);
 
-                x++;
-                console.log(x);
-                console.log(clicked);
-                //Jumps to the next card
-                setTimeout(function(){
-                    bot(botTerms, botObjects, delay, x, clicked);
-                }, delay/12);
+                x++; 
+                bot(botTerms, botObjects, delay, x, clicked);
 
+            }
 
-
-            }, delay/12)
-            
-           
-        } else {
+        } else if (clicked.length<6){
             x++;  
             bot(botTerms, botObjects, delay, x, clicked);
         }
@@ -157,8 +163,10 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             attributes: true
         };
 
+        let triggered = false;
         //Defines the observer and a callback function and triggers it
         let observer = new MutationObserver(() => {
+            
 
             //If a time has been typed in then the defaultTime value is replaced to it
             if(time >= 0){
@@ -166,9 +174,14 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
                 //replaces the default time with the typed in time
                 defaultTime=time;
             }
-
-            //Triggers the setup function for the bot
-            callBack(defaultTime);
+           
+            if(!triggered){
+                triggered=true;
+                
+                //Triggers the setup function for the bot
+                callBack(defaultTime);
+            }
+            
 
         }).observe(target, config);
         
