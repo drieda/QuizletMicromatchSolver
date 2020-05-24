@@ -73,33 +73,32 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
 
     //The bot that does the work | botTerms: all the flashcard from Quizlet | botObjects: an object containing the words and the tiles
     let bot = (botTerms, botObjects, delay, x=0,clicked = []) => {
-        console.log('bot start');
+
         //event: a pointerdown event | clicked: an array which stores the index of the tiles that have been clicked | x: index of the current card
         let event = new PointerEvent("pointerdown");
 
-        if(clicked.indexOf(x) === -1){
+        if(clicked.indexOf(x) === -1 &&  clicked.length<6){
 
             //Clicks the tile
             botObjects.elem[x].dispatchEvent(event);
-            console.log('click');
+            
             //index: the index of the pair of the tile clicked above
             let index = botObjects.text.indexOf(findPair(botObjects.text[x],botTerms));
           
             //Clicks the tile that has the pair of the current card
             botObjects.elem[index].dispatchEvent(event);
-            console.log('click');
+            
             //Stores the index of the tile that has been clicked
             clicked.push(index);
 
             x++;
-            console.log(x);
-            console.log(clicked);
+            
             //Jumps to the next card
             setTimeout(function(){
                 bot(botTerms, botObjects, delay, x, clicked);
             }, delay/6);
            
-        } else {
+        } else if(clicked.length<6) {
             x++;  
             bot(botTerms, botObjects, delay, x, clicked);
         }
@@ -149,6 +148,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
             attributes: true
         };
 
+        let triggered = false;
         //Defines the observer and a callback function and triggers it
         let observer = new MutationObserver(() => {
 
@@ -159,8 +159,12 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
                 defaultTime=time;
             }
 
-            //Triggers the setup function for the bot
-            callBack(defaultTime);
+            if(!triggered){
+                triggered=true;
+                
+                //Triggers the setup function for the bot
+                callBack(defaultTime);
+            }
 
         }).observe(target, config);
         
