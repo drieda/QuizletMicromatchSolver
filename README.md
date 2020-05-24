@@ -14,5 +14,6 @@ Note: the script only works in micromatch mode which is NOT equal with match. (F
 Also note that Quizlet can't save a time less than 0.5s
 
 # This script was created for learning JavaScript only. I did NOT run the script in any game. I do NOT encourage anyone to use the script for ruining other's experience.
+If you want to TEST the script please use ONLY the link I gave you above.
 
-Note: the script can't solve games where you need to pair text with image
+Note: the script can't solve games where you need to pair text with image. 
