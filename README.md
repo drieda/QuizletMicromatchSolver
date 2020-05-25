@@ -1,6 +1,6 @@
 # A simple JavaScript that matches Quizlet cards.
 
-The script doesn't bypass any security barriers or anything similar, it only simulates mouse clicks on client side.
+The script doesn't bypass any security barriers or anything similar, it only simulates client side mouse clicks.
 
 # How to use
 1.) Open a Quizlet micromatch game <br>
@@ -19,4 +19,4 @@ Also note that Quizlet can't save a time less than 0.5s
 
 If you want to TEST the script please use ONLY the link I gave you above.
 
-Note: the script can't solve games where you need to pair text with image. 
+Note: the script can't solve games where you need to pair text with images. 
