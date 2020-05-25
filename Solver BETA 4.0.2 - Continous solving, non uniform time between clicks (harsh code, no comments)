@@ -95,9 +95,9 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
                     x++;
                     setTimeout(function(){
                         bot(botTerms, botObjects, delay, x, clicked);
-                    }, (delay/12) + Math.floor(Math.random() * 10));
+                    }, delay/12);
     
-                }, delay/12 + Math.floor(Math.random() * 10))
+                }, delay/12)
 
             } else {
 
@@ -122,7 +122,7 @@ I also do NOT encourage you to use it while you're signed in, so that Quizlet wo
     let callBack = time => {
 
         //delay: the time after which the bot triggers, the value of the input box converted to milliseconds also I added 40ms for a better accuracy
-        let delay = parseInt(time * 1000 - 50);
+        let delay = parseInt(time * 1000 - 40);
 
         //A timeout for the bot to trigger after
         setTimeout(() => bot(getTerms(),getObjects(), delay), delay/12)
